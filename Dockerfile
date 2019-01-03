@@ -14,10 +14,8 @@ FROM alpine
 # Update package index and install git
 RUN apk add --update git
 
-#RUN apk add git
-#&& \
-#    git clone https://aur.archlinux.org/snapd.git && \
-#    cd snapd && \
-#    makepkg -si && \
-#    systemctl enable --now snapd.socket && \
-#    ln -s /var/lib/snapd/snap /snap
+RUN git clone https://aur.archlinux.org/snapd.git && \
+    cd snapd && \
+    makepkg -si && \
+    systemctl enable --now snapd.socket && \
+    ln -s /var/lib/snapd/snap /snap
