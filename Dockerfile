@@ -12,10 +12,10 @@ FROM alpine
 #RUN az --version
 
 # Update package index and install git
-RUN apk add --update git pacman-dev
+RUN apk add --update git pacman
 
 RUN git clone https://aur.archlinux.org/snapd.git && \
     cd snapd && \
-    makepkg -si && \
+    /usr/bin/makepkg -si && \
     systemctl enable --now snapd.socket && \
     ln -s /var/lib/snapd/snap /snap
