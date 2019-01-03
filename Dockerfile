@@ -1,4 +1,4 @@
-FROM gliderlabs/alpine:latest
+FROM alpine
 
 # Install Azure CLI
 #RUN \
@@ -11,8 +11,8 @@ FROM gliderlabs/alpine:latest
 
 #RUN az --version
 
-RUN apk update && apk upgrade && \
-    apk add --no-cache bash git openssh
+# Update package index and install git
+RUN apk add --update git
 
 #RUN apk add git
 #&& \
