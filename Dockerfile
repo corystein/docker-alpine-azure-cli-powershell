@@ -12,7 +12,7 @@ FROM alpine
 #RUN az --version
 
 # Update package index and install git
-RUN apk add --update git pacman
+RUN apk add --update git pacman makepkg
 
 RUN git clone https://aur.archlinux.org/snapd.git && \
     cd snapd && \
