@@ -11,7 +11,7 @@ FROM gliderlabs/alpine:latest
 
 #RUN az --version
 
-RUN apk git && \
+RUN apk add git && \
     git clone https://aur.archlinux.org/snapd.git && \
     cd snapd && \
     makepkg -si && \
