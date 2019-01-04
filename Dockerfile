@@ -9,7 +9,7 @@ RUN \
     pip --no-cache-dir install azure-cli && \
     apk del --purge build
 
-#RUN az --version
+RUN az --version
 
 # Update package index and install git
 #RUN apk add --update git pacman-dev
