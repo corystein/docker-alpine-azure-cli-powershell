@@ -16,7 +16,7 @@ RUN az --version
 RUN apk add --update git cmake
 
 # Install PowerShell
-RUN git clone git@github.com:PowerShell/PowerShell && \
+RUN git clone https://github.com/PowerShell/PowerShell && \
     cd PowerShell && \
     ./tools/install-powershell.sh
 
