@@ -11,6 +11,11 @@ RUN \
 
 RUN az --version
 
+# Install PowerShell
+RUN apk add \
+    libicu52 \
+    libunwind8
+
 # Update package index and install git
 #RUN apk add --update git pacman-dev
 
