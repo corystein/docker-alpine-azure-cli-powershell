@@ -97,6 +97,8 @@ RUN apk add --no-cache \
     Start-Sleep -Seconds 6 ; \
     }"
 
+RUN pwsh --version
+
 ####################################################
 # END : Install PowerShell
 ####################################################
