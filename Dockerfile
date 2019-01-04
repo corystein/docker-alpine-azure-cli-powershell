@@ -13,7 +13,7 @@ RUN az --version
 
 
 # Update package index and install git
-RUN apk add --update git cmake bash
+RUN apk add --update git bash
 
 # Install PowerShell
 #RUN git clone https://github.com/PowerShell/PowerShell && \
