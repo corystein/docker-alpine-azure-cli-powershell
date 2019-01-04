@@ -46,7 +46,56 @@ RUN tar zxf /tmp/linux.tar.gz -C ${PS_INSTALL_FOLDER}
 #FROM ${imageRepo}:${fromTag}
 
 # Copy only the files we need from the previous stage
-COPY --from=installer-env ["/opt/microsoft/powershell", "/opt/microsoft/powershell"]
+#COPY --from=installer-env ["/opt/microsoft/powershell", "/opt/microsoft/powershell"]
+
+# Define Args and Env needed to create links
+ARG PS_INSTALL_VERSION=6-preview
+ENV PS_INSTALL_FOLDER=/opt/microsoft/powershell/$PS_INSTALL_VERSION \
+    \
+    # Define ENVs for Localization/Globalization
+    DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false \
+    LC_ALL=en_US.UTF-8 \
+    LANG=en_US.UTF-8 \
+    # set a fixed location for the Module analysis cache
+    PSModuleAnalysisCachePath=/var/cache/microsoft/powershell/PSModuleAnalysisCache/ModuleAnalysisCache
+
+# Install dotnet dependencies and ca-certificates
+RUN apk add --no-cache \
+    ca-certificates \
+    less \
+    \
+    # PSReadline/console dependencies
+    ncurses-terminfo-base \
+    \
+    # .NET Core dependencies
+    krb5-libs \
+    libgcc \
+    libintl \
+    libssl1.0 \
+    libstdc++ \
+    tzdata \
+    userspace-rcu \
+    zlib \
+    icu-libs \
+    && apk -X https://dl-cdn.alpinelinux.org/alpine/edge/main add --no-cache \
+    lttng-ust \
+    \
+    # Create the pwsh symbolic link that points to powershell
+    && ln -s ${PS_INSTALL_FOLDER}/pwsh /usr/bin/pwsh \
+    \
+    # Create the pwsh-preview symbolic link that points to powershell
+    && ln -s ${PS_INSTALL_FOLDER}/pwsh /usr/bin/pwsh-preview \
+    # intialize powershell module cache
+    && pwsh \
+    -NoLogo \
+    -NoProfile \
+    -Command " \
+    \$ErrorActionPreference = 'Stop' ; \
+    \$ProgressPreference = 'SilentlyContinue' ; \
+    while(!(Test-Path -Path \$env:PSModuleAnalysisCachePath)) {  \
+    Write-Host "'Waiting for $env:PSModuleAnalysisCachePath'" ; \
+    Start-Sleep -Seconds 6 ; \
+    }"
 
 ####################################################
 # END : Install PowerShell
