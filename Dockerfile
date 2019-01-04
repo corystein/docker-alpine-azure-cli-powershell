@@ -11,13 +11,19 @@ RUN \
 
 RUN az --version
 
-# Install PowerShell
-RUN apk add \
-    libicu52 \
-    libunwind8
 
 # Update package index and install git
-#RUN apk add --update git pacman-dev
+RUN apk add --update git cmake
+
+# Install PowerShell
+RUN git clone git@github.com:PowerShell/PowerShell && \
+    cd PowerShell && \
+    ./tools/install-powershell.sh
+
+#RUN apk add \
+#    libicu52 \
+#    libunwind8
+
 
 #RUN git clone https://aur.archlinux.org/snapd.git && \
 #    cd snapd && \
