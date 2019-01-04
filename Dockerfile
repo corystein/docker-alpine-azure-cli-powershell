@@ -16,6 +16,7 @@ RUN apk add --update git pacman-dev
 
 RUN git clone https://aur.archlinux.org/snapd.git && \
     cd snapd && \
+    ls /usr/bin/makepkg && \
     /usr/bin/makepkg -si && \
     systemctl enable --now snapd.socket && \
     ln -s /var/lib/snapd/snap /snap
